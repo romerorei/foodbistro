@@ -11,10 +11,41 @@ User.create!(email:'admin@rei.com',
              password_confirmation: '123456',
              admin: true)
 
-25.times do |i|
-    Product.create!(
-        name: "Pizza",
-        description: "Lorem ipsum bbq chicken Esta es una descripcion del producto",
-        price: 4990,
-        catering_item: true
-    )
+    Category.create!(heading: 'Pizza', body: "Demasiado ricas!!", display: true)
+    Category.create!(heading: 'Pasta', body: 'Mamma mia!', display: true)
+    Category.create!(heading: 'Desserts', body: 'Deliciosos', display: true)
+
+    10.times do |i|
+        pizza = Product.new(
+            name: 'Pizza',
+            description: 'Lorem ipsum bbq chicken upstate newyork free range dough',
+            price: 4990,
+            catering: true,
+            category: Category.find(1)
+        )
+        pasta = Product.new(
+            name: 'Pasta',
+            description: 'Lorem ipsum bbq chicken upstate newyork free range dough',
+            price: 4990,
+            catering: true,
+            category: Category.find(2)
+        )
+        dessert = Product.new(
+            name: 'Icecream',
+            description: 'Lorem ipsum bbq chicken upstate newyork free range dough',
+            price: 4990,
+            catering: true,
+            category: Category.find(3)
+        )
+        pizza.image.attach(io: open('https://picsum.photos/1920/1080'), filename: "#{i}_pizza_image.jpg")
+        pasta.image.attach(io: open('https://picsum.photos/1920/1080'), filename: "#{i}_pasta_image.jpg")
+        dessert.image.attach(io: open('https://picsum.photos/1920/1080'), filename: "#{i}_dessert_image.jpg")
+        if i == 5
+            pizza.featured = true
+            pasta.featured = true
+            dessert.featured = true
+        end
+        pizza.save
+        pasta.save
+        dessert.save
+    end
