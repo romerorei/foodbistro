@@ -1,0 +1,13 @@
+<% @orders_items.each do |item| %>
+<h3><%= item.product.name%></h3>
+<h3>$<%= item.product.price %></h3>
+<%= form_with model: item do |f|%>
+<%= f.hidden_field :product_id, value: item.product.id %>
+<%= f.number_field :quantity, value: item.quantity.to_i%>
+<%= f.submit "Actualizar carro de compras" %>
+<%= link_to "Quitar productos", item, method: :delete, remote: true %>
+<% end%>
+<h2>Subtotal: $<%= item.total %></h2>
+<% end %>
+
+<h3>Tu pedido actual tiene un total de: $<%= current_order.subtotal %></h3>

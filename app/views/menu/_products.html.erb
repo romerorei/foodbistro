@@ -1,25 +1,43 @@
 
 <div class="row">
-    <% @cats.each do |cat| %>
-    <% if cat.products.where(featured: true).first.image.attached? %>
+    <% @cats.includes(:featured_products).each do |cat| %>
+    <%# <% @cats.each do |cat| %> 
+    <% if cat.featured_products.first.image.attached? %>
+   <%#  <% if cat.products.where(featured: true).first.image.attached? %> 
     <%= image_tag(cat.products.where(featured: true).first.image, class:'img-fluid')%>
     <% end %>
     <div class="col-12">
-        <h1 style="text-align:center;"><%= cat.heading %></h1>
+        <h1 style="text-align:center;"><%= cat.heading %>  </h1> 
         <hr />
     </div>
     <% @products.each do |product| %>
     <% if product.category == cat %>
     <div class="col-4">
         <h5>
-            <%= product.name %>
+            <%= product.name %> 
         </h5>
+        
         <p>
             <%= product.description%>
         </p>
-        <span><%= product.price %> <%= "| Disponible para devilery!" if product.catering %></span>
+        <span>$<%= product.price %> <%= product.catering && product.available ? "| Disponible para delivery!" : "| Solo retiro en tienda" %></span>
+            <% if product.available && product.catering == true  %>
+                     <div id="menu-products-container">
+                        <%= form_with model: @orders_item do |f| %>
+                        <%= f.hidden_field :product_id, value: product.id %>
+                        <%= f.number_field :quantity, value: 0, min: 1%>
+                        <%= f.submit "Agregar al carro" %>
+                        <% end %>
+                    </div>
+            
+            <% end %>
+            
     </div>
+                                                 
     <% end %>
+    
     <% end %>
+    <hr />
     <% end %>
+    
 </div>
