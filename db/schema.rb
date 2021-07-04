@@ -12,9 +12,12 @@
 
 ActiveRecord::Schema.define(version: 2021_07_02_060113) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
+    t.text "name", null: false
+    t.text "record_type", null: false
     t.integer "record_id", null: false
     t.integer "blob_id", null: false
     t.datetime "created_at", null: false
@@ -23,18 +26,18 @@ ActiveRecord::Schema.define(version: 2021_07_02_060113) do
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
+    t.text "key", null: false
+    t.text "filename", null: false
+    t.text "content_type"
     t.text "metadata"
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
+    t.text "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
   create_table "categories", force: :cascade do |t|
-    t.string "heading"
+    t.text "heading"
     t.text "body"
     t.boolean "display"
     t.datetime "created_at", precision: 6, null: false
@@ -61,7 +64,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_060113) do
   end
 
   create_table "products", force: :cascade do |t|
-    t.string "name", default: ""
+    t.text "name", default: ""
     t.text "description", default: ""
     t.decimal "price", default: "0.0"
     t.boolean "dairy_free", default: false
@@ -78,13 +81,13 @@ ActiveRecord::Schema.define(version: 2021_07_02_060113) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
+    t.text "email", default: "", null: false
+    t.text "encrypted_password", default: "", null: false
+    t.text "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.boolean "admin", default: false
-    t.string "username", default: "default"
+    t.text "username", default: "default"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
